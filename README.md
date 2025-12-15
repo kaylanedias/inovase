@@ -56,7 +56,7 @@ Siga os passos abaixo para executar o projeto em sua máquina local.
 git clone https://github.com/kaylanedias/inovase.git
 
 # Entre na pasta
-cd inovase-hub
+cd inovase
 
 # Instale as dependências
 npm install
