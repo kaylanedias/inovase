@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Painel Admin | InovaSE</title>
+
+    <link rel="stylesheet" href="../css/style.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
+</head>
+
+<body>
+
+    <div class="admin-wrapper">
+        <aside class="sidebar">
+            <div class="logo-area">
+                <h2>Inova<span class="text-primary">SE</span> Hub.</h2>
+            </div>
+
+            <nav class="menu">
+                <p class="menu-label">MENU PRINCIPAL</p>
+                <a href="#" class="active" id="menuDashboard">
+                    <span class="material-icons-outlined">dashboard</span> Dashboard
+                </a>
+                <a href="#" id="menuSalas">
+                    <span class="material-icons-outlined">meeting_room</span> Salas e
+                    Labs
+                </a>
+                <a href="#" id="menuReservas">
+                    <span class="material-icons-outlined">calendar_today</span> Reservas
+                </a>
+                <a href="#" id="menuUsuarios">
+                    <span class="material-icons-outlined">person</span> Meu Perfil
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button onclick="logout()" class="btn-logout">
+                    <span class="material-icons-outlined">logout</span> Sair
+                </button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="profile-area">
+                    <div class="admin-info">
+                        <strong id="adminName">Admin</strong>
+                        <small>Administrador</small>
+                    </div>
+                    <div class="profile-pic">
+                        <span class="material-icons-outlined">person</span>
+                    </div>
+                </div>
+            </header>
+
+            <section id="viewDashboard">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-icon icon-blue">
+                            <span class="material-icons-outlined">attach_money</span>
+                        </div>
+                        <div class="stat-info">
+                            <span>Receita Mensal</span>
+                            <h3 id="statReceita">R$ 0,00</h3>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon icon-purple">
+                            <span class="material-icons-outlined">event_seat</span>
+                        </div>
+                        <div class="stat-info">
+                            <span>Reservas Hoje</span>
+                            <h3 id="statReservasHoje">0</h3>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon icon-green">
+                            <span class="material-icons-outlined">meeting_room</span>
+                        </div>
+                        <div class="stat-info">
+                            <span>Salas Ativas</span>
+                            <h3 id="statSalasAtivas">0</h3>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon icon-orange">
+                            <span class="material-icons-outlined">list_alt</span>
+                        </div>
+                        <div class="stat-info">
+                            <span>Total de Reservas</span>
+                            <h3 id="statTotalReservas">0</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <section class="card-box form-section-admin">
+                        <div class="card-header">
+                            <h3>Cadastrar Novo Espaço</h3>
+                        </div>
+
+                        <form id="formSala" enctype="multipart/form-data">
+                            <input type="hidden" id="editId" />
+                            <input type="hidden" id="imgAntiga" />
+
+                            <div class="input-group">
+                                <label>Nome do Espaço</label>
+                                <input type="text" id="salaNome" placeholder="Ex: Auditório Inovação" required />
+                            </div>
+
+                            <div class="input-group">
+                                <label>Descrição do Espaço</label>
+                                <textarea id="salaDescricao" rows="3"
+                                    placeholder="Detalhes (projetor, ar condicionado...)" required></textarea>
+                            </div>
+
+                            <div class="row-inputs">
+                                <div class="input-group">
+                                    <label>Tipo</label>
+                                    <select id="salaTipo">
+                                        <option value="sala_reuniao">Sala de Reunião</option>
+                                        <option value="auditorio">Auditório</option>
+                                        <option value="coworking">Coworking</option>
+                                        <option value="laboratorio">Laboratório Tech</option>
+                                    </select>
+                                </div>
+                                <div class="input-group">
+                                    <label>Capacidade</label>
+                                    <input type="number" id="salaCapacidade" placeholder="0" required />
+                                </div>
+                            </div>
+
+                            <div class="row-inputs">
+                                <div class="input-group">
+                                    <label>Preço/Hora (R$)</label>
+                                    <input type="number" id="salaPreco" step="0.01" placeholder="0.00" required />
+                                </div>
+                            </div>
+
+                            <div class="input-group">
+                                <label>Foto do Espaço</label>
+                                <input type="file" id="salaImagemFile" accept="image/*" />
+                                <small class="text-help">Deixe vazio para manter a imagem atual.</small>
+                            </div>
+
+                            <div id="previewContainer" class="preview-box" style="display: none">
+                                <label>Imagem Atual:</label>
+                                <img id="imgPreview" src="" alt="Prévia" />
+                            </div>
+
+                            <button type="submit" class="btn-primary">Salvar Espaço</button>
+                        </form>
+                    </section>
+
+                    <section class="card-box list-section-admin">
+                        <div class="card-header">
+                            <h3>Salas Recentes</h3>
+                            <a href="#" id="btnVerTodas" class="link-view-all">Ver todas</a>
+                        </div>
+                        <div id="listaSalasResumida" class="lista-clean">
+                            <p class="loading-text">Carregando...</p>
+                        </div>
+                    </section>
+                </div>
+            </section>
+
+            <section id="viewSalas" style="display: none">
+                <div class="card-box">
+                    <div class="card-header">
+                        <h3>Gerenciamento de Salas e Laboratórios</h3>
+                        <button class="btn-small" onclick="document.getElementById('menuDashboard').click()">
+                            Voltar
+                        </button>
+                    </div>
+
+                    <div class="tabela-container">
+                        <table class="tabela-reservas">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Espaço</th>
+                                    <th>Tipo</th>
+                                    <th>Capacidade</th>
+                                    <th>Preço/Hora</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelaSalasCompleta"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="viewReservas" style="display: none">
+                <div class="card-box">
+                    <div class="card-header header-with-filters">
+                        <div class="header-top">
+                            <h3>Histórico de Reservas</h3>
+                            <button class="btn-small" onclick="document.getElementById('menuDashboard').click()">
+                                Voltar
+                            </button>
+                        </div>
+
+                        <div class="filters-bar">
+                            <input type="date" id="filtroData" class="input-filter">
+
+                            <select id="filtroStatus" class="input-filter">
+                                <option value="">Todos os Status</option>
+                                <option value="confirmada">Confirmada</option>
+                                <option value="cancelada">Cancelada</option>
+                            </select>
+
+                            <select id="filtroSala" class="input-filter">
+                                <option value="">Todas as Salas</option>
+                            </select>
+
+                            <button class="btn-icon" id="btnLimparFiltros" title="Limpar Filtros">
+                                <span class="material-icons-outlined">filter_alt_off</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="tabela-container">
+                        <table class="tabela-reservas">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Cliente</th>
+                                    <th>Sala</th>
+                                    <th>Data</th>
+                                    <th>Horário</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelaReservasGeral"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="viewUsuarios" style="display: none">
+                <div class="card-box container-small">
+                    <div class="card-header">
+                        <h3>Meus Dados Cadastrais</h3>
+                    </div>
+
+                    <form id="formPerfil">
+                        <div class="input-group">
+                            <label>Nome Completo</label>
+                            <input type="text" id="perfilNome" required />
+                        </div>
+
+                        <div class="input-group">
+                            <label>E-mail (Login)</label>
+                            <input type="email" id="perfilEmail" required />
+                        </div>
+
+                        <div class="row-inputs">
+                            <div class="input-group">
+                                <label>Telefone / WhatsApp</label>
+                                <input type="text" id="perfilTelefone" />
+                            </div>
+                            <div class="input-group">
+                                <label>CPF / CNPJ</label>
+                                <input type="text" id="perfilDoc" />
+                            </div>
+                        </div>
+
+                        <div class="alert-info">
+                            <small>
+                                <span class="material-icons-outlined icon-xs">info</span>
+                                Para alterar sua senha, entre em contato com o suporte
+                                técnico.
+                            </small>
+                        </div>
+
+                        <button type="submit" class="btn-primary mt-20">
+                            Salvar Alterações
+                        </button>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="modalDetalhesAdmin" class="modal-overlay">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h3>Detalhes do Espaço</h3>
+                <span class="material-icons-outlined close-modal" onclick="fecharModalDetalhes()">close</span>
+            </div>
+
+            <div class="modal-body">
+                <img id="detalheImg" src="" alt="Sala" class="modal-hero-img" />
+
+                <div class="modal-title-row">
+                    <h2 id="detalheNome" class="text-primary">Nome da Sala</h2>
+                    <span id="detalheTipo" class="status-badge dark-badge">Tipo</span>
+                </div>
+
+                <p id="detalheDescricao" class="modal-description">Descrição...</p>
+
+                <div class="modal-info-grid">
+                    <div>
+                        <small>Capacidade</small>
+                        <h4 id="detalheCapacidade">0 Pessoas</h4>
+                    </div>
+                    <div>
+                        <small>Preço por Hora</small>
+                        <h4 id="detalhePreco" class="text-primary">R$ 0,00</h4>
+                    </div>
+                </div>
+
+                <button onclick="fecharModalDetalhes()" class="btn-primary mt-20">
+                    Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalReservaAdmin" class="modal-overlay">
+        <div class="modal-content modal-md">
+            <div class="modal-header">
+                <h3>Detalhes do Agendamento</h3>
+                <span class="material-icons-outlined close-modal" onclick="fecharModalReserva()">close</span>
+            </div>
+
+            <div class="modal-body">
+                <div class="modal-reservation-header">
+                    <div>
+                        <small>Reserva ID</small>
+                        <h2 id="resDetalheId" class="text-white">#000</h2>
+                    </div>
+                    <span id="resDetalheStatus" class="status-badge">STATUS</span>
+                </div>
+
+                <h4 class="section-title text-primary">Cliente</h4>
+                <div class="modal-info-box mb-20">
+                    <p>
+                        <strong>Nome:</strong> <span id="resDetalheCliente">...</span>
+                    </p>
+                    <p>
+                        <strong>E-mail:</strong> <span id="resDetalheEmail">...</span>
+                    </p>
+                    <p>
+                        <strong>Telefone:</strong>
+                        <span id="resDetalheTelefone">...</span>
+                    </p>
+                    <p>
+                        <strong>Doc (CPF/CNPJ):</strong>
+                        <span id="resDetalheDoc">...</span>
+                    </p>
+                </div>
+
+                <h4 class="section-title text-primary">Espaço e Valores</h4>
+                <div class="modal-info-box">
+                    <div class="modal-space-row">
+                        <img id="resDetalheImg" src="" class="thumb-img" />
+                        <div>
+                            <strong id="resDetalheEspaco" class="d-block text-white">Nome da Sala</strong>
+                            <small id="resDetalheData">00/00/0000</small>
+                        </div>
+                    </div>
+
+                    <div class="modal-row-split border-top">
+                        <span>Horário:</span>
+                        <strong id="resDetalheHorario" class="text-white">00:00 - 00:00</strong>
+                    </div>
+
+                    <div class="modal-row-split mt-5 border-top" style="padding-top: 10px; border-color: #333;">
+                        <span>Itens Adicionais:</span>
+                        <span id="resDetalheExtras" class="text-white"
+                            style="text-align: right; max-width: 60%; font-size: 0.9rem;">
+                            -
+                        </span>
+                    </div>
+
+                    <div class="modal-row-split mt-5">
+                        <span>Custo Total Estimado:</span>
+                        <strong id="resDetalheTotal" class="text-success text-lg">R$ 0,00</strong>
+                    </div>
+                </div>
+
+                <button onclick="fecharModalReserva()" class="btn-primary mt-20">
+                    Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/admin.js"></script>
+    <script>
+        function logout() {
+            localStorage.removeItem("usuarioLogado");
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+
+</html>

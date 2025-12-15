@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minha Área | InovaSE</title>
+
+    <link rel="stylesheet" href="../css/style.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="admin-wrapper">
+        <aside class="sidebar">
+            <div class="logo-area">
+                <h2>Inova<span class="text-primary">SE</span> Hub.</h2>
+            </div>
+
+            <nav class="menu">
+                <p class="menu-label">MENU CLIENTE</p>
+                <a href="#" class="active" id="menuExplorar">
+                    <span class="material-icons-outlined">explore</span> Explorar
+                    Espaços
+                </a>
+                <a href="#" id="menuReservas">
+                    <span class="material-icons-outlined">event_note</span> Minhas
+                    Reservas
+                </a>
+                <a href="#" id="menuUsuarios">
+                    <span class="material-icons-outlined">person</span> Meu Perfil
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button onclick="logout()" class="btn-logout">
+                    <span class="material-icons-outlined">logout</span> Sair
+                </button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="welcome-text">
+                    <h2 id="userGreeting">Olá, Inovador!</h2>
+                    <p class="text-secondary">Encontre o espaço perfeito para hoje.</p>
+                </div>
+                <div class="profile-pic">
+                    <span class="material-icons-outlined">person</span>
+                </div>
+            </header>
+
+            <section id="viewExplorar">
+                <h3 class="mb-20">Espaços Disponíveis</h3>
+
+                <div class="filters-bar mb-20" style="display: flex; gap: 10px; flex-wrap: wrap">
+                    <div style="flex: 1; min-width: 200px; position: relative">
+                        <span class="material-icons-outlined" style="
+                  position: absolute;
+                  left: 10px;
+                  top: 50%;
+                  transform: translateY(-50%);
+                  color: #999;
+                ">
+                            search
+                        </span>
+                        <input type="text" id="filtroBuscaNome" placeholder="Buscar sala..." style="
+                  width: 100%;
+                  padding-left: 35px;
+                  height: 40px;
+                  border-radius: 8px;
+                  border: 1px solid var(--border-color);
+                  background: var(--input-bg);
+                  color: var(--text-primary);
+                " />
+                    </div>
+
+                    <select id="filtroBuscaTipo" style="
+                width: auto;
+                min-width: 150px;
+                height: 40px;
+                border-radius: 8px;
+                border: 1px solid var(--border-color);
+                background: var(--input-bg);
+                color: var(--text-primary);
+                padding: 0 10px;
+              ">
+                        <option value="">Todos os Tipos</option>
+                        <option value="sala_reuniao">Sala de Reunião</option>
+                        <option value="auditorio">Auditório</option>
+                        <option value="coworking">Coworking</option>
+                        <option value="laboratorio">Laboratório</option>
+                    </select>
+                </div>
+
+                <div id="gridEspacos" class="grid-salas-user">
+                    <p class="loading-text">Carregando espaços...</p>
+                </div>
+            </section>
+
+            <section id="viewReservas" style="display: none">
+                <div class="card-header header-with-filters mb-20">
+                    <div class="header-top">
+                        <h3>Histórico de Agendamentos</h3>
+                    </div>
+
+                    <div class="filters-bar">
+                        <input type="date" id="filtroDataUser" class="input-filter" />
+
+                        <select id="filtroStatusUser" class="input-filter">
+                            <option value="">Todos os Status</option>
+                            <option value="confirmada">Confirmadas</option>
+                            <option value="cancelada">Canceladas</option>
+                        </select>
+
+                        <select id="filtroSalaUser" class="input-filter">
+                            <option value="">Todas as Salas</option>
+                        </select>
+
+                        <button onclick="limparFiltrosUser()" class="btn-icon btn-border" title="Limpar Filtros">
+                            <span class="material-icons-outlined">filter_alt_off</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="tabela-container">
+                    <table class="tabela-reservas">
+                        <thead>
+                            <tr>
+                                <th>Espaço</th>
+                                <th>Data</th>
+                                <th>Horário</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="listaMinhasReservas"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="viewUsuarios" style="display: none">
+                <div class="card-box container-small">
+                    <div class="card-header">
+                        <h3>Meus Dados Cadastrais</h3>
+                    </div>
+
+                    <form id="formPerfil">
+                        <div class="input-group">
+                            <label>Nome Completo</label>
+                            <input type="text" id="perfilNome" required />
+                        </div>
+
+                        <div class="input-group">
+                            <label>E-mail (Login)</label>
+                            <input type="email" id="perfilEmail" required />
+                        </div>
+
+                        <div class="row-inputs">
+                            <div class="input-group">
+                                <label>Telefone / WhatsApp</label>
+                                <input type="text" id="perfilTelefone" />
+                            </div>
+                            <div class="input-group">
+                                <label>CPF / CNPJ</label>
+                                <input type="text" id="perfilDoc" />
+                            </div>
+                        </div>
+
+                        <div class="alert-info">
+                            <small>
+                                <span class="material-icons-outlined icon-xs">info</span>
+                                Para alterar sua senha, entre em contato com o suporte
+                                técnico.
+                            </small>
+                        </div>
+
+                        <button type="submit" class="btn-primary mt-20">
+                            Salvar Alterações
+                        </button>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="modalReserva" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitulo">Reservar Sala</h3>
+                <span class="material-icons-outlined close-modal">close</span>
+            </div>
+
+            <div class="modal-body">
+                <form id="formReserva">
+                    <input type="hidden" id="salaIdHidden" />
+                    <input type="hidden" id="salaPrecoRawHidden" />
+
+                    <div class="info-resumo">
+                        <img id="modalImg" src="" alt="Sala" />
+                        <div>
+                            <h4 id="modalNomeSala">Nome da Sala</h4>
+                            <p id="modalDescricaoSala" class="text-secondary"
+                                style="font-size: 0.9rem; margin-top: 5px">
+                                Descrição da sala...
+                            </p>
+                        </div>
+                    </div>
+
+                    <p id="modalPrecoSala" class="text-primary font-bold" style="margin-bottom: 15px">
+                        R$ 00,00 / hora
+                    </p>
+
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label>Data</label>
+                            <input type="date" id="reservaData" required />
+                        </div>
+                    </div>
+
+                    <div class="row-inputs">
+                        <div class="input-group">
+                            <label>Início</label>
+                            <input type="time" id="reservaInicio" required />
+                        </div>
+                        <div class="input-group">
+                            <label>Fim</label>
+                            <input type="time" id="reservaFim" required />
+                        </div>
+                    </div>
+
+                    <div class="row-inputs">
+                    </div>
+
+                    <div id="listaAdicionais"></div>
+
+
+                    <div class="calculadora-container" style="
+                        background: var(--bg-color);
+                        padding: 15px;
+                        border-radius: 10px;
+                        margin-bottom: 20px;
+                        border: 1px solid var(--border-color);
+                    ">
+                        <div style="
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            ">
+                            <span>Duração estimada:</span>
+                            <strong id="calcDuracao">0h 00m</strong>
+                        </div>
+                        <div style="
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            margin-top: 10px;
+                            font-size: 1.2rem;
+                            ">
+                            <span>Total a Pagar:</span>
+                            <strong id="calcTotal" class="text-success">R$ 0,00</strong>
+                        </div>
+                    </div>
+
+                    <div id="msgConflito" class="text-danger mb-20" style="display: none">
+                        Horário indisponível. Tente outro.
+                    </div>
+
+                    <button type="submit" class="btn-primary">Confirmar Reserva</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalDetalheReserva" class="modal-overlay">
+        <div class="modal-content modal-md">
+            <div class="modal-header">
+                <h3>Detalhes da Reserva</h3>
+                <span class="material-icons-outlined close-modal" onclick="fecharModalDetalhe()">close</span>
+            </div>
+
+            <div class="modal-body">
+                <div class="modal-reservation-header">
+                    <div>
+                        <small>Reserva ID</small>
+                        <h2 id="detId" class="text-white">#000</h2>
+                    </div>
+                    <span id="detStatus" class="status-badge">STATUS</span>
+                </div>
+
+                <div class="modal-info-box mb-20">
+                    <div class="modal-space-row">
+                        <img id="detImg" src="" class="thumb-img" />
+                        <div>
+                            <strong id="detNome" class="d-block text-white">Nome da Sala</strong>
+                            <small id="detDesc" class="text-secondary" style="font-size: 0.8rem">Descrição...</small>
+                        </div>
+                    </div>
+                </div>
+
+                <h4 class="section-title text-primary">Resumo Financeiro</h4>
+                <div class="modal-info-box">
+                    <div class="modal-row-split border-bottom" style="
+                        padding-bottom: 10px;
+                        margin-bottom: 10px;
+                        border-color: #333;
+                    ">
+                        <span>Data:</span>
+                        <strong id="detData" class="text-white">00/00/0000</strong>
+                    </div>
+
+                    <div class="modal-row-split">
+                        <span>Horário:</span>
+                        <strong id="detHorario" class="text-white">00:00 - 00:00</strong>
+                    </div>
+
+                    <div class="modal-row-split mt-5">
+                        <span>Duração:</span>
+                        <span id="detDuracao">0h 00m</span>
+                    </div>
+
+                    <div class="modal-row-split mt-5 border-top" style="padding-top: 10px; border-color: #444;">
+                        <span>Adicionais:</span>
+                        <span id="detExtras" class="text-white" style="text-align: right; max-width: 60%;">Carregando...</span>
+                    </div>
+
+                    <div class="modal-row-split mt-20 border-top">
+                        <span>Valor Total:</span>
+                        <strong id="detTotal" class="text-success text-lg">R$ 0,00</strong>
+                    </div>
+                </div>
+
+                <button onclick="fecharModalDetalhe()" class="btn-primary mt-20">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/painel.js"></script>
+    <script>
+        function logout() {
+            localStorage.removeItem("usuarioLogado");
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+
+</html>

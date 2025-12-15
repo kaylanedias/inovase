@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | InovaSE</title>
+    
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="container">
+        
+        <section class="form-section">
+            <header class="header">
+                <h2>Bem-vindo de volta</h2>
+                <p class="text-secondary">Acesse sua conta para gerenciar reservas.</p>
+            </header>
+
+            <form id="loginForm">
+                <div class="input-group">
+                    <label for="email">E-mail</label>
+                    <div class="input-wrapper">
+                        <span class="material-icons-outlined">email</span>
+                        <input type="email" id="email" placeholder="exemplo@email.com" required autocomplete="email">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="senha">Senha</label>
+                    <div class="input-wrapper">
+                        <span class="material-icons-outlined">lock</span>
+                        <input type="password" id="senha" placeholder="Sua senha" required autocomplete="current-password">
+                        
+                        <span class="material-icons-outlined toggle-pass" id="btnToggleSenha" role="button" tabindex="0" title="Mostrar senha">
+                            visibility
+                        </span>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary">Entrar</button>
+            </form>
+
+            <footer class="footer">
+                <p>Não tem uma conta? <a href="cadastro.html">Criar conta</a></p>
+            </footer>
+        </section>
+
+        <aside class="visual-section">
+            <div class="overlay-content">
+                <h1>Inova<span class="text-primary">SE</span>.</h1>
+                <p>Leve seus projetos para o próximo nível.</p>
+            </div>
+        </aside>
+
+    </div>
+
+    <script src="../js/main.js"></script>
+</body>
+
+</html>

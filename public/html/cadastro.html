@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro | InovaSE</title>
+    
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="container">
+        
+        <section class="form-section">
+            <header class="header">
+                <h2>Criar nova conta</h2>
+                <p class="text-secondary">Cadastre-se para reservar laboratórios e salas.</p>
+            </header>
+
+            <form id="cadastroForm">
+                <div class="input-group">
+                    <label for="nome">Nome Completo</label>
+                    <div class="input-wrapper">
+                        <span class="material-icons-outlined">person</span>
+                        <input type="text" id="nome" placeholder="Seu nome" required autocomplete="name">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="email">E-mail</label>
+                    <div class="input-wrapper">
+                        <span class="material-icons-outlined">email</span>
+                        <input type="email" id="email" placeholder="exemplo@email.com" required autocomplete="email">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="cpf_cnpj">CPF ou CNPJ</label>
+                    <div class="input-wrapper">
+                        <span class="material-icons-outlined">badge</span>
+                        <input type="text" id="cpf_cnpj" placeholder="Apenas números" required inputmode="numeric">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="telefone">Telefone</label>
+                    <div class="input-wrapper">
+                        <span class="material-icons-outlined">phone</span>
+                        <input type="tel" id="telefone" placeholder="(XX) XXXXX-XXXX" required autocomplete="tel" inputmode="tel">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="senha">Senha</label>
+                    <div class="input-wrapper">
+                        <span class="material-icons-outlined">lock</span>
+                        <input type="password" id="senha" placeholder="Crie uma senha forte" required autocomplete="new-password">
+                        
+                        <span class="material-icons-outlined toggle-pass" id="btnToggleSenha" role="button" tabindex="0" title="Mostrar senha">
+                            visibility
+                        </span>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary">Criar Conta</button>
+            </form>
+
+            <footer class="footer">
+                <p>Já é membro? <a href="index.html">Fazer Login</a></p>
+            </footer>
+        </section>
+
+        <aside class="visual-section">
+            <div class="overlay-content">
+                <h1>Seu novo espaço de trabalho.</h1>
+                <p>Acesse infraestrutura de alto padrão projetada para quem busca excelência e produtividade.</p>
+            </div>
+        </aside>
+
+    </div>
+
+    <script src="../js/main.js"></script>
+</body>
+
+</html>
